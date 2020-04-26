@@ -1,0 +1,54 @@
+{
+    "name": "cheecodes/language-detection",
+    "description": "",
+    "keywords": [
+        "cheecodes",
+        "language-detection"
+    ],
+    "homepage": "https://github.com/cheecodes/language-detection",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Fabian Bettag",
+            "email": "fabian@chee.codes",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "^5.8|^6.0|^7",
+        "laravel/framework": "^5.8|^6.0|^7"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CheeCodes\\LanguageDetection\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CheeCodes\\LanguageDetection\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CheeCodes\\LanguageDetection\\LanguageDetectionServiceProvider"
+            ],
+            "aliases": {
+                "LanguageDetection": "CheeCodes\\LanguageDetection\\LanguageDetectionFacade"
+            }
+        }
+    }
+}

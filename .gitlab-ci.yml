@@ -1,0 +1,47 @@
+image: docker:19.03.0
+
+variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+
+services:
+    - docker:19.03.0-dind
+
+cache: &global_cache
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+        - vendor/
+    policy: pull-push
+
+stages:
+    - prepare
+    - test
+
+install:
+    stage: prepare
+    script:
+        - docker run --rm -v $(pwd):/app -w /app composer install --no-progress
+
+php74:
+    stage: test
+    cache:
+        <<: *global_cache
+        policy: pull
+    script:
+        - docker run --rm -v $(pwd):/app -w /app php:7.4-cli vendor/bin/phpunit
+
+php73:
+    stage: test
+    cache:
+        <<: *global_cache
+        policy: pull
+    script:
+        - docker run --rm -v $(pwd):/app -w /app php:7.3-cli vendor/bin/phpunit
+
+php72:
+    stage: test
+    cache:
+        <<: *global_cache
+        policy: pull
+    script:
+        - docker run --rm -v $(pwd):/app -w /app php:7.2-cli vendor/bin/phpunit
