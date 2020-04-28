@@ -16,7 +16,7 @@ composer require cheecodes/language-detection
 You should then publish the config
 
 ```bash
-php artisan config:publish
+php artisan vendor:publish
 ```
 
 ## Usage
