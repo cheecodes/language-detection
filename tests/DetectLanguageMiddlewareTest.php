@@ -6,7 +6,6 @@ use CheeCodes\LanguageDetection\Http\Middleware\DetectLanguage;
 use CheeCodes\LanguageDetection\LanguageDetectionServiceProvider;
 use CheeCodes\LanguageDetection\Service\LoadLanguage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Mockery\MockInterface;
 use Orchestra\Testbench\TestCase;
 
@@ -30,7 +29,6 @@ class DetectLanguageMiddlewareTest extends TestCase
                  ->with($request, 'default')
                  ->once();
         });
-        Config::shouldReceive('set')->once();
 
         $middleware->handle($request, static function () {
         });
@@ -42,12 +40,10 @@ class DetectLanguageMiddlewareTest extends TestCase
         $request    = new Request();
 
         $this->mock(LoadLanguage::class, static function (MockInterface $mock) use (&$request) {
-            /** @noinspection PhpUndefinedMethodInspection */
             $mock->shouldReceive('__invoke')
                  ->with($request, 'api')
                  ->once();
         });
-        Config::shouldReceive('set')->once();
 
         $middleware->handle($request, static function () {
         }, 'api');
@@ -57,14 +53,13 @@ class DetectLanguageMiddlewareTest extends TestCase
     public function sets_the_locale_to_the_return_value_of_the_language_loader() {
         $middleware = $this->app->get(DetectLanguage::class);
         $this->mock(LoadLanguage::class, static function ($mock) {
-            /** @noinspection PhpUndefinedMethodInspection */
             $mock->shouldReceive('__invoke')->andReturn('de');
         });
 
-        Config::shouldReceive('set')->with('app.locale', 'de')->once();
-
         $middleware->handle(new Request(), static function () {
         });
+
+        self::assertSame('de', app()->getLocale());
     }
 
     protected function getPackageProviders($app) {

@@ -23,7 +23,7 @@ class DetectLanguage
         /** @var LoadLanguage $loadLanguage */
         $loadLanguage = app()->get(LoadLanguage::class);
 
-        Config::set('app.locale', $loadLanguage($request, $group ?? 'default'));
+        app()->setLocale($loadLanguage($request, $group ?? 'default'));
 
         return $next($request);
     }
