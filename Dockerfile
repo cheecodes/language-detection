@@ -10,6 +10,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php composer-setup.php && \
     php -r "unlink('composer-setup.php');"
 
-RUN php composer.phar install --prefer-dist --no-progress
+RUN php composer.phar install --prefer-dist --no-progress --no-suggest
 
 RUN ./vendor/bin/phpunit
